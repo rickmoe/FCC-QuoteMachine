@@ -1,35 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import "./App.css";
+import quotes from "./quotes";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  function getRandomQuote(quotes) {
+    const index = Math.floor(Math.random() * quotes.length);
+    return quotes[index];
+  }
+
+  const [quote, setQuote] = useState(getRandomQuote(quotes));
+  let tweetURL =
+    "https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=" +
+    quote.text.replace(" ", "%20") +
+    "%20-%20" +
+    quote.author.replace(" ", "%20");
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div id="quote-box">
+        <p id="text">{quote.text}</p>
+        <p id="author">{quote.author}</p>
+        <div className="row">
+          <a id="tweet-quote" href={tweetURL}>
+            Tweet Quote
+          </a>
+          <button
+            id="new-quote"
+            onClick={() => setQuote(getRandomQuote(quotes))}
+          >
+            New Quote
+          </button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
-
-export default App
